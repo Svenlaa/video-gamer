@@ -6,4 +6,3 @@ rules:
   no-var: error
   eqeqeq: warn
   no-unused-expressions: error
-  no-unused-vars: error

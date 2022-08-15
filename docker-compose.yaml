@@ -1,13 +1,13 @@
 services:
-  stack:
-    image: stack
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    environment:
-      NODE_ENV: production
-    ports:
-      - 3000:3000
+  # stack:
+  #   image: stack
+  #   build:
+  #     context: .
+  #     dockerfile: ./Dockerfile
+  #   environment:
+  #     NODE_ENV: production
+  #   ports:
+  #     - 3000:3000
   mysql:
     image: mysql
     # Don't use mysl_native_password
@@ -15,5 +15,6 @@ services:
     restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=example
+      - MYSQL_DATABASE=stack
     ports:
       - 3306:3306

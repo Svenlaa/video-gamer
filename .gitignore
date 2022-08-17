@@ -12,6 +12,9 @@
 /prisma/db.sqlite
 /prisma/db.sqlite-journal
 
+# database files (bad practice)
+/.data/
+
 # next.js
 /.next/
 /out/

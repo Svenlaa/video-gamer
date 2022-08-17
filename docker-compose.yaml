@@ -10,11 +10,13 @@ services:
   #     - 3000:3000
   mysql:
     image: mysql
-    # Don't use mysl_native_password
+    # Don't use mysl_native_password like we do here
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=example
-      - MYSQL_DATABASE=stack
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
     ports:
-      - 3306:3306
+      - ${DB_PORT}:${DB_PORT}
+    volumes:
+      - ./.data:/var/lib/mysql

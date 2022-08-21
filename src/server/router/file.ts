@@ -14,7 +14,6 @@ const s3 = new S3({
 export const fileRouter = createRouter()
   .query('listBuckets', {
     async resolve() {
-      console.log(process.env.MINIO_ROOT_USER)
       return await s3.listBuckets().promise()
     }
   })

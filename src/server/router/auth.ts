@@ -1,5 +1,7 @@
 import { createRouter } from './context'
 import { z } from 'zod'
+import bcrypt, { compare } from 'bcrypt'
+import { User } from '.prisma/client'
 
 export const authRouter = createRouter()
   .mutation('login', {
@@ -8,12 +10,12 @@ export const authRouter = createRouter()
       password: z.string()
     }),
     async resolve({ input, ctx: { prisma } }) {
-      console.log('sup:', input.password)
       const existingUser = await prisma.user.findFirst({
-        where: { email: input.email, password: input.password }
+        where: { email: input.email }
       })
-      console.log('hey', existingUser)
-      return existingUser
+      if (!existingUser?.password) return null
+      const match = await bcrypt.compare(input.password, existingUser?.password)
+      return match ? existingUser : null
     }
   })
   .mutation('register', {
@@ -22,9 +24,9 @@ export const authRouter = createRouter()
       password: z.string()
     }),
     async resolve({ input, ctx: { prisma } }) {
-      console.log(input.password)
-      const user = await prisma.user.create({
-        data: { email: input.email, password: input.password }
+      const hash = await bcrypt.hash(input.password, 10)
+      const user = prisma.user.create({
+        data: { email: input.email, password: hash }
       })
       return user
     }

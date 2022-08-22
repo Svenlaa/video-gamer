@@ -1,10 +1,7 @@
 // src/server/db/client.ts
-import { PrismaClient } from '@prisma/client'
+import { Prisma, PrismaClient } from '@prisma/client'
 import { env } from '../../env/server.mjs'
-
-// declare global {
-//   let prisma: PrismaClient | undefined
-// }
+import bcrypt from 'bcrypt'
 
 export const prisma =
   //global.prisma ||

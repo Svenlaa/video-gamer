@@ -17,6 +17,7 @@
     "@trpc/react": "^9.27.0",
     "@trpc/server": "^9.27.0",
     "aws-sdk": "^2.1198.0",
+    "bcrypt": "^5.0.1",
     "next": "12.2.3",
     "next-auth": "^4.10.3",
     "react": "18.2.0",
@@ -27,6 +28,7 @@
     "zustand": "^4.0.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/node": "18.0.0",
     "@types/react": "18.0.14",
     "@types/react-dom": "18.0.5",

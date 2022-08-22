@@ -1,9 +1,14 @@
 // src/utils/trpc.ts
 import type { AppRouter } from '../server/router'
-import { createReactQueryHooks } from '@trpc/react'
+import { createReactQueryHooks, createTRPCClient } from '@trpc/react'
 import type { inferProcedureOutput, inferProcedureInput } from '@trpc/server'
+import superjson from 'superjson'
 
 export const trpc = createReactQueryHooks<AppRouter>()
+export const trpcClient = createTRPCClient<AppRouter>({
+  url: `${process.env.NEXTAUTH_URL}/api/trpc`,
+  transformer: superjson
+})
 
 /**
  * This is a helper method to infer the output of a query resolver

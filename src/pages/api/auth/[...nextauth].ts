@@ -11,34 +11,32 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: '/login'
   },
-
   callbacks: {
-    session({ session, user }) {
-      if (session.user) {
-        session.user.id = user.id
-      }
+    session: ({ session }) => {
+      session.property = 'sven'
       return session
     }
   },
-
+  session: { strategy: 'jwt' },
   adapter: PrismaAdapter(prisma),
   providers: [
-    //Login with email/password
     Credentials({
+      // email | password
       name: 'Credentials',
       credentials: {
         email: { label: 'Username', type: 'text', placeholder: 'JohnDoe' },
         password: { label: 'Password', type: 'password' }
       },
       async authorize(credentials) {
-        if (!credentials) throw Error('Big oof')
+        if (!credentials) throw Error('Invalid')
+
         const { email, password } = credentials
-        console.log(password)
         const user = await trpcClient.mutation('auth.login', {
           email,
           password
         })
-        if (!user) throw Error('invalid login stuffs')
+        if (!user) throw Error('Invalid email or password')
+
         return user
       }
     })

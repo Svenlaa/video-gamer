@@ -1,6 +1,7 @@
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
-import { useRef } from 'react'
+import { useRouter } from 'next/router'
+import { useRef, useState } from 'react'
 import Header from '../components/header'
 import Card from '../components/ui/Card'
 
@@ -8,15 +9,21 @@ const LoginPage = () => {
   const userRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
   const rememberRef = useRef<HTMLInputElement>(null)
+  const [error, setError] = useState('')
+
+  const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!userRef.current || !passwordRef.current || !rememberRef.current) return
     if (!userRef.current.value || !passwordRef.current.value) return
-    signIn('credentials', {
+    const res = await signIn('credentials', {
       email: userRef.current.value,
-      password: passwordRef.current.value
+      password: passwordRef.current.value,
+      redirect: false
     })
+    if (res?.ok) router.push('/profile')
+    if (res?.error) setError(res.error)
   }
 
   return (
@@ -24,6 +31,11 @@ const LoginPage = () => {
       <Header />
       <main className="container mx-auto">
         <Card>
+          {error && (
+            <div className="mx-auto mb-6 max-w-screen-sm rounded-md bg-red-800 px-12 py-6 text-gray-200">
+              {error}
+            </div>
+          )}
           <div className="mx-auto max-w-screen-sm rounded-md bg-indigo-900 p-12">
             <form onSubmit={handleSubmit} className="pb-2">
               <label htmlFor="email" className="block pb-2">

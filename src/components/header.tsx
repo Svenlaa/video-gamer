@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 const Header = () => {
-  const { data: session } = useSession()
+  const { status } = useSession()
 
   return (
     <header className="mb-4 backdrop-blur-md backdrop-brightness-90">
@@ -31,7 +31,7 @@ const Header = () => {
                 <a>SVENLAA</a>
               </Link>
             </li>
-            {!session && (
+            {status === 'unauthenticated' && (
               <li>
                 <Link href="/login">
                   <a className="border-b-2 border-rose-500 bg-white p-2 text-rose-500">
@@ -45,14 +45,17 @@ const Header = () => {
                 </Link>
               </li>
             )}
-            {session && (
+            {status === 'authenticated' && (
               <li>
                 <Link href="/profile">
                   <a className="border-b-2 border-rose-500 bg-white p-2 text-rose-500">
                     👤 PROFILE
                   </a>
                 </Link>
-                <button onClick={() => signOut} type="button">
+                <button
+                  onClick={() => signOut({ callbackUrl: '/' })}
+                  type="button"
+                >
                   <span className="border-b-2 border-r-2 border-white bg-rose-500 p-2 text-white">
                     🔓 LOG OUT
                   </span>

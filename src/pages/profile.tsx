@@ -1,6 +1,5 @@
 import { NextPage } from 'next'
 import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/router'
 import Header from '../components/header'
 
 const ProfilePage: NextPage = () => {
@@ -11,7 +10,7 @@ const ProfilePage: NextPage = () => {
       <div className="container mx-auto">
         {session && (
           <p>
-            Welcome back{' '}
+            Welkom terug{' '}
             <span className="text-green-500">{session.user?.email}</span>!
           </p>
         )}

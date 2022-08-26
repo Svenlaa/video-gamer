@@ -2,7 +2,7 @@ extends:
   - next/core-web-vitals
   - plugin:prettier/recommended
 rules:
-  prettier/prettier: error
+  prettier/prettier: none
   no-var: error
   eqeqeq: warn
   no-unused-expressions: error

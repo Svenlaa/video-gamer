@@ -1,7 +1,10 @@
 import { signIn } from 'next-auth/react'
 import Head from 'next/head'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FormEvent, useState } from 'react'
+import Input from '../components/form/input'
+import SubmitBtn from '../components/form/submit'
 import Header from '../components/header'
 import { trpc } from '../utils/trpc'
 
@@ -26,7 +29,7 @@ const RegisterPage = () => {
     mutate(
       { email, password },
       {
-        onSuccess: async (profile) => {
+        onSuccess: async () => {
           await signIn('credentials', {
             redirect: false,
             email,
@@ -53,45 +56,40 @@ const RegisterPage = () => {
             {errorMsg}
           </div>
         )}
-        <div className="mx-auto max-w-[545px] rounded-lg bg-primary py-[60px] px-20">
+        <div className="mx-auto max-w-[545px] rounded-lg bg-ocean py-[60px] px-20">
           <h3 className="mb-8 block text-center text-2xl font-bold">
             REGISTER
           </h3>
           <form onSubmit={handleRegister}>
-            <input
+            <Input
               type="email"
               required
-              autoComplete="email"
-              className="mb-4 w-full rounded bg-white/10 py-2 px-4 text-base leading-loose text-white"
               placeholder="User Name"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <input
+            <Input
               type="password"
               required
-              autoComplete="password"
-              className="mb-4 w-full rounded bg-white/10 py-2 px-4 text-base leading-loose text-white"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <input
+            <Input
               type="password"
               required
-              autoComplete="password"
-              className="mb-4 w-full rounded bg-white/10 py-2 px-4 text-base leading-loose text-white"
               placeholder="Repeat Password"
               value={passwordi}
               onChange={(e) => setPasswordi(e.target.value)}
             />
-            <button
-              type="submit"
-              className="mt-4 w-full rounded-lg bg-gray-300 p-4 text-rose-500 transition-colors duration-200 ease-in-out hover:bg-rose-500 hover:text-white"
-            >
-              Register
-            </button>
+            <SubmitBtn text="SIGN UP" />
           </form>
+          <span className="my-4 block w-full text-center">
+            Already have an account?
+            <Link href="/login">
+              <a className="ml-2 font-bold text-ruby">Log In</a>
+            </Link>
+          </span>
         </div>
       </main>
     </>

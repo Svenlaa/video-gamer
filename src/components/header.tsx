@@ -34,12 +34,12 @@ const Header = () => {
             {status === 'unauthenticated' && (
               <li>
                 <Link href="/login">
-                  <a className="border-b-2 border-rose-500 bg-white p-2 text-rose-500">
+                  <a className="border-b-2 border-ruby bg-white py-3 px-3 text-ruby">
                     👤 LOG IN
                   </a>
                 </Link>
                 <Link href="/register">
-                  <a className="border-b-2 border-r-2 border-white bg-rose-500 p-2 text-white">
+                  <a className="border-b-2 border-r-2 border-white bg-ruby py-3 px-3 text-white">
                     👥 REGISTER
                   </a>
                 </Link>
@@ -48,7 +48,7 @@ const Header = () => {
             {status === 'authenticated' && (
               <li>
                 <Link href="/profile">
-                  <a className="border-b-2 border-rose-500 bg-white p-2 text-rose-500">
+                  <a className="border-b-2 border-ruby bg-white py-3 px-3 text-ruby">
                     👤 PROFILE
                   </a>
                 </Link>
@@ -56,7 +56,7 @@ const Header = () => {
                   onClick={() => signOut({ callbackUrl: '/' })}
                   type="button"
                 >
-                  <span className="border-b-2 border-r-2 border-white bg-rose-500 p-2 text-white">
+                  <span className="border-b-2 border-r-2 border-white bg-ruby py-3 px-3 text-white">
                     🔓 LOG OUT
                   </span>
                 </button>

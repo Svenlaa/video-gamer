@@ -34,8 +34,6 @@ export const fileRouter = createRouter()
     resolve: async ({ input }) => {
       const Key = input.Key
       const Bucket = input.Bucket
-      return await (
-        await s3.getObject({ Bucket, Key }).promise()
-      ).LastModified
+      return await await s3.getObject({ Bucket, Key }).promise()
     }
   })

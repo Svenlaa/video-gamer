@@ -1,8 +1,3 @@
-const VARIANTS = {
-  primary: 'bg-blue-500',
-  seconday: 'bg-gray-500'
-}
-
 const Input = ({
   type = 'text',
   required = false,

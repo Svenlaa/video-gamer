@@ -15,5 +15,6 @@ function defineNextConfig(config) {
 export default defineNextConfig({
   reactStrictMode: true,
   swcMinify: true,
-  output: 'standalone'
+  output: 'standalone',
+  images: { domains: ['localhost'] }
 })

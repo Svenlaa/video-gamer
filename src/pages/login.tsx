@@ -6,7 +6,7 @@ import { useState } from 'react'
 import Footer from '../components/footer'
 import Input from '../components/form/input'
 import SubmitBtn from '../components/form/submit'
-import Header from '../components/header'
+import Hero from '../components/Hero'
 
 const LoginPage = () => {
   const [email, setEmail] = useState('')
@@ -33,8 +33,12 @@ const LoginPage = () => {
       <Head>
         <title>Login | Videogamer</title>
       </Head>
-      <Header />
-      <main className="container mx-auto">
+      <Hero img="/assets/pagebg.jpg">
+        <h1 className="text-center text-5xl font-extrabold uppercase">
+          Login for gaming
+        </h1>
+      </Hero>
+      <main className="container mx-auto my-24">
         {error && (
           <div className="mx-auto mb-6 max-w-screen-sm rounded-md bg-red-800 px-12 py-6 text-gray-200">
             {error}

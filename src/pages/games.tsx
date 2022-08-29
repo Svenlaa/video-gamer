@@ -1,6 +1,7 @@
-import Image from 'next/image'
 import Footer from '../components/footer'
+import GameThumbnail from '../components/game/GameThumbnail'
 import Header from '../components/header'
+import Hero from '../components/Hero'
 import { trpc } from '../utils/trpc'
 
 const GamesPage = () => {
@@ -18,18 +19,11 @@ const GamesPage = () => {
 
   return (
     <>
-      <Header />
+      <Hero />
       <div className="container mx-auto">
         <div className="grid grid-flow-row grid-cols-7 p-4">
           {files.map((f: string) => (
-            <div>
-              <Image
-                src={`http://localhost:9000/videogamer-2/${f}`}
-                width="200"
-                height="323.25"
-                className="rounded-md"
-              />
-            </div>
+            <GameThumbnail src={`http://localhost:9000/videogamer-2/${f}`} />
           ))}
         </div>
       </div>

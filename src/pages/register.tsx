@@ -3,9 +3,10 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FormEvent, useState } from 'react'
+import Footer from '../components/footer'
 import Input from '../components/form/input'
 import SubmitBtn from '../components/form/submit'
-import Header from '../components/header'
+import Hero from '../components/Hero'
 import { trpc } from '../utils/trpc'
 
 const RegisterPage = () => {
@@ -49,8 +50,12 @@ const RegisterPage = () => {
       <Head>
         <title>Register | Videogamer</title>
       </Head>
-      <Header />
-      <main className="container mx-auto px-4">
+      <Hero img="/assets/pagebg.jpg">
+        <h1 className="text-center text-5xl font-extrabold uppercase">
+          Registration Page
+        </h1>
+      </Hero>
+      <main className="container mx-auto my-24 px-4">
         {errorMsg && (
           <div className="mx-auto my-4 max-w-[545px] rounded-lg bg-red-800 py-6 px-20 text-gray-300">
             {errorMsg}
@@ -92,6 +97,7 @@ const RegisterPage = () => {
           </span>
         </div>
       </main>
+      <Footer />
     </>
   )
 }

@@ -1,10 +1,10 @@
 import { NextPage } from 'next'
-import Header from '../components/header'
+import Hero from '../components/Hero'
 
 const HomePage: NextPage = () => {
   return (
     <>
-      <Header />
+      <Hero />
       <main className="container mx-auto">
         <h1>Homepage!</h1>
       </main>

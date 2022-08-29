@@ -1,13 +1,13 @@
 import { NextPage } from 'next'
 import { useSession } from 'next-auth/react'
 import Footer from '../components/footer'
-import Header from '../components/header'
+import Hero from '../components/Hero'
 
 const ProfilePage: NextPage = () => {
   const { data: session } = useSession()
   return (
     <>
-      <Header />
+      <Hero />
       <div className="container mx-auto">
         {session && (
           <p>

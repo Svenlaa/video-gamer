@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       colors: {
         ocean: '#232a5c',
+        deepocean: '#080e37',
         ruby: '#ff0052'
       }
     }

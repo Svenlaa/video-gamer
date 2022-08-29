@@ -6,7 +6,7 @@ const Hero = ({ img, children }: { img?: string; children?: JSX.Element }) => {
     return (
       <>
         <Header />
-        <div className="mb-4 pt-20"></div>
+        <div className="pt-[135px]"></div>
       </>
     )
   return (

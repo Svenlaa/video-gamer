@@ -2,7 +2,11 @@ import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTwitter, faFacebookSquare } from '@fortawesome/free-brands-svg-icons'
+import {
+  faTwitter,
+  faFacebookSquare,
+  faVimeoV
+} from '@fortawesome/free-brands-svg-icons'
 import {
   faUser,
   faUsers,
@@ -48,6 +52,10 @@ const Header = () => {
             <FontAwesomeIcon icon={faLocationDot} className="max-h-8" /> London,
             UK
           </li>
+          <HeaderLink
+            icon={<FontAwesomeIcon icon={faVimeoV} />}
+            link="https://vimeo.com"
+          />
           <HeaderLink
             icon={<FontAwesomeIcon icon={faTwitter} />}
             link="https://twitter.com"

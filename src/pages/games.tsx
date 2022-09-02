@@ -11,7 +11,11 @@ const GamesPage = () => {
   if (!files)
     return (
       <>
-        <Hero />
+        <Hero img="/assets/pagebg.jpg">
+          <h1 className="text-center text-5xl font-extrabold uppercase">
+            Videogames
+          </h1>
+        </Hero>
         <p>No files</p>
         <Footer />
       </>
@@ -19,7 +23,11 @@ const GamesPage = () => {
 
   return (
     <>
-      <Hero />
+      <Hero img="/assets/pagebg.jpg">
+        <h1 className="text-center text-5xl font-extrabold uppercase">
+          Videogames
+        </h1>
+      </Hero>
       <div className="container mx-auto">
         <div className="grid grid-flow-row grid-cols-7 p-4">
           {files.map((f: string) => (

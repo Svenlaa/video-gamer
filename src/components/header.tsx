@@ -25,7 +25,7 @@ const HeaderLink = ({
   return (
     <li className="relative border-b-2 border-b-gray-500 p-2 pl-6 after:absolute after:-right-2.5 after:-top-0.5 after:h-[46px] after:w-0.5 after:rotate-[25deg] after:bg-gray-500">
       <Link href={link}>
-        <a>
+        <a className="duration-200 hover:text-rose-500">
           {icon}
           {text}
         </a>
@@ -38,14 +38,15 @@ const Header = () => {
   const { status } = useSession()
 
   return (
-    <header className="absolute z-20 w-full backdrop-blur-lg">
-      <div className="container mx-auto h-fit px-4">
+    <header className="absolute z-20 -ml-1 w-full backdrop-blur-lg">
+      <div className="container mx-auto px-4">
         <ul className="mb-1.5 flex flex-row">
           <li className="relative border-b-2 border-b-gray-500 p-2 pr-6 before:absolute before:-top-0.5 before:-left-2.5 before:h-[46px] before:w-0.5 before:rotate-[-25deg] before:bg-gray-500">
-            <FontAwesomeIcon icon={faPhone} /> +31649120354
+            <FontAwesomeIcon icon={faPhone} className="max-h-8" /> +31649120354
           </li>
           <li className="relative flex-grow border-b-2 border-b-gray-500 p-2 pr-6 before:absolute before:-top-0.5 before:-left-2.5 before:h-[46px] before:w-0.5 before:rotate-[-25deg] before:bg-gray-500">
-            <FontAwesomeIcon icon={faLocationDot} /> London, UK
+            <FontAwesomeIcon icon={faLocationDot} className="max-h-8" /> London,
+            UK
           </li>
           <HeaderLink
             icon={<FontAwesomeIcon icon={faTwitter} />}
@@ -81,12 +82,12 @@ const Header = () => {
             {status === 'unauthenticated' && (
               <li>
                 <Link href="/login">
-                  <a className="border-b-2 border-ruby bg-white p-3 text-ruby">
+                  <a className="whitespace-nowrap border-b-2 border-ruby bg-white p-3 text-ruby">
                     <FontAwesomeIcon icon={faUser} className="mr-1" /> LOG IN
                   </a>
                 </Link>
                 <Link href="/register">
-                  <a className="border-b-2 border-r-2 border-white bg-ruby p-3 text-white">
+                  <a className="whitespace-nowrap border-b-2 border-r-2 border-white bg-ruby p-3 text-white">
                     <FontAwesomeIcon icon={faUsers} className="mr-1" /> REGISTER
                   </a>
                 </Link>

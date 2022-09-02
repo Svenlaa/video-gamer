@@ -11,7 +11,7 @@ const GamesPage = () => {
   if (!files)
     return (
       <>
-        <Header />
+        <Hero />
         <p>No files</p>
         <Footer />
       </>
@@ -23,7 +23,10 @@ const GamesPage = () => {
       <div className="container mx-auto">
         <div className="grid grid-flow-row grid-cols-7 p-4">
           {files.map((f: string) => (
-            <GameThumbnail src={`http://localhost:9000/videogamer-2/${f}`} />
+            <GameThumbnail
+              src={`http://localhost:9000/videogamer-2/${f}`}
+              key={f}
+            />
           ))}
         </div>
       </div>

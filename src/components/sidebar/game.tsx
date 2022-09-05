@@ -16,16 +16,18 @@ const Game = ({
   return (
     <Link href={`/game/${slug}`}>
       <a>
-        <li className="grid grid-cols-4 grid-rows-3 text-left hover:text-rose-500">
-          <div className="relative row-span-3 h-16 w-12">
+        <li className="flex flex-row gap-2 p-1 text-left hover:text-rose-500">
+          <div className="relative row-span-3 h-16 w-10">
             <Image
               src={getImageUrl(imgUrl)}
               layout="fill"
               alt={title + 'cover'}
             />
           </div>
-          <span className="col-span-3 font-semibold">{title}</span>
-          <span>{releaseDate}</span>
+          <div className="flex flex-col">
+            <span className="font-semibold">{title}</span>
+            <span>{releaseDate}</span>
+          </div>
         </li>
       </a>
     </Link>

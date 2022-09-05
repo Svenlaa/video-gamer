@@ -6,7 +6,7 @@ import { randomUUID } from 'crypto'
 export const authRouter = createRouter()
   .mutation('login', {
     input: z.object({
-      email: z.string(),
+      email: z.string().email(),
       password: z.string()
     }),
     async resolve({ input, ctx: { prisma } }) {

@@ -6,8 +6,21 @@ import { trpc } from '../utils/trpc'
 
 const GamesPage = () => {
   const q = trpc.useQuery(['file.listObjects', { Bucket: 'videogamer-2' }])
-  if (!q.isSuccess) return <Header />
+  const gameQuery = trpc.useQuery(['game.getAll'])
+  const mutation = trpc.useMutation(['game.create'])
+
+  const go = () => {
+    mutation.mutate({
+      title: 'Mario Kart 8 Deluxe',
+      coverImg: 'MK8.jpg',
+      slug: 'mario_kart_8_deluxe'
+    })
+  }
+
+  if (!gameQuery.isSuccess || !q.isSuccess) return <Header />
+  console.log(gameQuery.data)
   const files = q.data.Contents?.map((f) => f.Key) as []
+  console.log(files)
   if (!files)
     return (
       <>
@@ -30,13 +43,11 @@ const GamesPage = () => {
       </Hero>
       <div className="container mx-auto">
         <div className="grid grid-flow-row grid-cols-7 p-4">
-          {files.map((f: string) => (
-            <GameThumbnail
-              src={`http://localhost:9000/videogamer-2/${f}`}
-              key={f}
-            />
+          {gameQuery.data.map((game) => (
+            <GameThumbnail game={game} key={game.id} />
           ))}
         </div>
+        <button onClick={go}>GO</button>
       </div>
       <Footer />
     </>

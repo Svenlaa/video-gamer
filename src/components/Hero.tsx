@@ -20,6 +20,7 @@ const Hero = ({ img, children }: { img?: string; children?: JSX.Element }) => {
           layout="fill"
           objectFit="cover"
           alt="Banner"
+          priority
         />
         <div className="static z-10 flex h-[50vh] min-h-[10rem] flex-col justify-around pt-20">
           {children}

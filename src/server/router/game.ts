@@ -15,7 +15,7 @@ export const gameRouter = createRouter()
         where: { title: input.title }
       })
       if (existingGame) throw Error('Game already exists')
-      const game = prisma?.game.create({
+      return prisma?.game.create({
         data: {
           title: input.title,
           coverImg: input.coverImg,
@@ -24,23 +24,27 @@ export const gameRouter = createRouter()
           categorySlug: input.categorySlug
         }
       })
-      return game
     }
   })
   .query('getOne', {
     input: z.string(),
     resolve: async ({ input, ctx: { prisma } }) => {
-      const game = await prisma.game.findUniqueOrThrow({
+      return await prisma.game.findUniqueOrThrow({
         where: {
           slug: input
         }
       })
-      return game
     }
   })
   .query('getAll', {
     resolve: async ({ ctx: { prisma } }) => {
-      const games = await prisma.game.findMany()
-      return games
+      return await prisma.game.findMany()
+    }
+  })
+  .query('getRecent', {
+    resolve: async ({ ctx: { prisma } }) => {
+      return await prisma.game.findMany({
+        orderBy: { releaseDate: 'desc' }
+      })
     }
   })

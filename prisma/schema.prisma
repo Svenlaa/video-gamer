@@ -61,4 +61,16 @@ model Game {
     title       String
     coverImg    String
     slug        String @unique
+    releaseDate DateTime @db.Date
+
+    categorySlug  String
+    category    Category @relation(fields: [categorySlug], references: [slug])
+}
+
+model Category {
+    id          String @id @default(cuid())
+    name        String
+    slug        String @unique
+
+    games       Game[]
 }

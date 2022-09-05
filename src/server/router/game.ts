@@ -6,7 +6,9 @@ export const gameRouter = createRouter()
     input: z.object({
       coverImg: z.string(),
       title: z.string(),
-      slug: z.string()
+      slug: z.string(),
+      releaseDate: z.date(),
+      categorySlug: z.string()
     }),
     resolve: async ({ input, ctx: { prisma } }) => {
       const existingGame = await prisma.game.findFirst({
@@ -14,7 +16,13 @@ export const gameRouter = createRouter()
       })
       if (existingGame) throw Error('Game already exists')
       const game = prisma?.game.create({
-        data: { title: input.title, coverImg: input.coverImg, slug: input.slug }
+        data: {
+          title: input.title,
+          coverImg: input.coverImg,
+          slug: input.slug,
+          releaseDate: input.releaseDate,
+          categorySlug: input.categorySlug
+        }
       })
       return game
     }

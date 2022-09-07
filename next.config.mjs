@@ -13,6 +13,7 @@ function defineNextConfig(config) {
 }
 
 export default defineNextConfig({
+  i18n: { defaultLocale: 'en', locales: ['en'] },
   reactStrictMode: true,
   swcMinify: true,
   output: 'standalone',

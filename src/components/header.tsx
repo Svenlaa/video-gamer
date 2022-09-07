@@ -19,19 +19,18 @@ import {
 
 const HeaderLink = ({
   link,
-  text,
+  title,
   icon
 }: {
   link: string
-  text?: string
+  title: string
   icon?: JSX.Element
 }) => {
   return (
     <li className="relative border-b-2 border-b-gray-500 p-2 pl-6 after:absolute after:-right-2.5 after:-top-0.5 after:h-[46px] after:w-0.5 after:rotate-[25deg] after:bg-gray-500">
       <Link href={link}>
-        <a className="duration-200 hover:text-rose-500">
+        <a className="duration-200 hover:text-rose-500" title={title}>
           {icon}
-          {text}
         </a>
       </Link>
     </li>
@@ -56,18 +55,22 @@ const Header = () => {
           <HeaderLink
             icon={<FontAwesomeIcon icon={faVimeoV} />}
             link="https://vimeo.com"
+            title="Vimeo"
           />
           <HeaderLink
             icon={<FontAwesomeIcon icon={faTwitter} />}
             link="https://twitter.com"
+            title="Twitter"
           />
           <HeaderLink
             icon={<FontAwesomeIcon icon={faFacebookSquare} />}
             link="https://facebook.com"
+            title="FaceBook"
           />
           <HeaderLink
             icon={<FontAwesomeIcon icon={faRss} />}
             link="https://rss.com"
+            title="RSS"
           />
         </ul>
         <nav className="flex items-center justify-between text-xl">

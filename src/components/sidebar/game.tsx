@@ -14,9 +14,9 @@ const Game = ({
   releaseDate: string
 }) => {
   return (
-    <Link href={`/game/${slug}`}>
-      <a>
-        <li className="flex flex-row gap-2 p-1 text-left hover:text-rose-500">
+    <li>
+      <Link href={`/game/${slug}`}>
+        <a className="flex flex-row gap-2 p-1 text-left hover:text-rose-500">
           <div className="relative row-span-3 h-16 w-10">
             <Image
               src={getImageUrl(imgUrl)}
@@ -28,9 +28,9 @@ const Game = ({
             <span className="font-semibold">{title}</span>
             <span>{releaseDate}</span>
           </div>
-        </li>
-      </a>
-    </Link>
+        </a>
+      </Link>
+    </li>
   )
 }
 

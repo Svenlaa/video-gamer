@@ -44,9 +44,9 @@ const GamePage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
             </div>
           </Card>
         </div>
-        <div className="w-1/4 text-center">
+        <div className="w-1/4">
           <div>
-            <h2 className="text-lg font-semibold uppercase ">
+            <h2 className="mb-2 text-xl font-semibold uppercase">
               Recent Releases
             </h2>
             <ul>

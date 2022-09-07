@@ -27,7 +27,7 @@ const getBaseUrl = () => {
 }
 
 export default withTRPC<AppRouter>({
-  config() {
+  config({ ctx }) {
     // Optional {ctx} prop
     /**
      * If you want to use SSR, you need to use the server's full URL

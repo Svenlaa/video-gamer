@@ -46,11 +46,12 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <ul className="mb-1.5 flex flex-row">
           <li className="relative border-b-2 border-b-gray-500 p-2 pr-6 before:absolute before:-top-0.5 before:-left-2.5 before:h-[46px] before:w-0.5 before:rotate-[-25deg] before:bg-gray-500">
-            <FontAwesomeIcon icon={faPhone} className="max-h-8" /> +31649120354
+            <FontAwesomeIcon icon={faPhone} className="inline h-4" />{' '}
+            +31649120354
           </li>
           <li className="relative flex-grow border-b-2 border-b-gray-500 p-2 pr-6 before:absolute before:-top-0.5 before:-left-2.5 before:h-[46px] before:w-0.5 before:rotate-[-25deg] before:bg-gray-500">
-            <FontAwesomeIcon icon={faLocationDot} className="max-h-8" /> London,
-            UK
+            <FontAwesomeIcon icon={faLocationDot} className="inline h-4" />{' '}
+            London, UK
           </li>
           <HeaderLink
             icon={<FontAwesomeIcon icon={faVimeoV} />}
@@ -96,7 +97,11 @@ const Header = () => {
                 </Link>
                 <Link href="/register">
                   <a className="whitespace-nowrap border-b-2 border-r-2 border-white bg-ruby p-3 text-white">
-                    <FontAwesomeIcon icon={faUsers} className="mr-1" /> REGISTER
+                    <FontAwesomeIcon
+                      icon={faUsers}
+                      className="mr-1 inline h-4"
+                    />{' '}
+                    REGISTER
                   </a>
                 </Link>
               </li>
@@ -105,7 +110,7 @@ const Header = () => {
               <li>
                 <Link href="/profile">
                   <a className="whitespace-nowrap border-b-2 border-ruby bg-white p-3 text-ruby">
-                    <FontAwesomeIcon icon={faCircleUser} className="mr-1" />
+                    <FontAwesomeIcon icon={faCircleUser} className="mr-1 " />
                     PROFILE
                   </a>
                 </Link>
@@ -116,7 +121,7 @@ const Header = () => {
                   <span className="whitespace-nowrap border-b-2 border-r-2 border-white bg-ruby py-3 px-3 text-white">
                     <FontAwesomeIcon
                       icon={faArrowRightFromBracket}
-                      className="mr-1"
+                      className="mr-1 inline h-4"
                     />{' '}
                     LOG OUT
                   </span>

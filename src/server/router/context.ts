@@ -12,7 +12,7 @@ type CreateContextOptions = {
 
 export const createContextInner = async (opts: CreateContextOptions) => {
   return {
-    session: opts.session,
+    session: opts?.session,
     prisma
   }
 }

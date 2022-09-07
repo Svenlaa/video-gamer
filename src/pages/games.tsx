@@ -9,6 +9,7 @@ const GamesPage = () => {
   const gameQuery = trpc.useQuery(['game.getAll'])
 
   if (!gameQuery.isSuccess || !q.isSuccess) return <Header />
+
   const files = q.data.Contents?.map((f) => f.Key) as []
   if (!files)
     return (

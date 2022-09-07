@@ -17,7 +17,6 @@ import { createSSGHelpers } from '@trpc/react/ssg'
 import superjson from 'superjson'
 
 const GamePage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
-  console.log(props)
   const { slug } = props
 
   const gameQuery = trpc.useQuery(['game.getOne', slug])
@@ -77,6 +76,7 @@ export const getStaticProps = async (
     ctx: await createContextInner({ session: null }),
     transformer: superjson // optional - adds superjson serialization
   })
+
   const slug = context.params?.slug as string
 
   await ssg.prefetchQuery('game.getOne', slug)

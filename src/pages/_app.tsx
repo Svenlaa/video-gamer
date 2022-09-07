@@ -5,6 +5,9 @@ import type { AppType } from 'next/dist/shared/lib/utils'
 import superjson from 'superjson'
 import { SessionProvider } from 'next-auth/react'
 import '../styles/globals.css'
+import { loggerLink } from '@trpc/client/links/loggerLink'
+import { httpBatchLink } from '@trpc/client/links/httpBatchLink'
+import { ReactQueryDevtools } from 'react-query/devtools'
 
 const MyApp: AppType = ({
   Component,
@@ -13,6 +16,7 @@ const MyApp: AppType = ({
   return (
     <SessionProvider session={session}>
       <Component {...pageProps} />
+      <ReactQueryDevtools initialIsOpen={false} />
     </SessionProvider>
   )
 }
@@ -36,12 +40,22 @@ export default withTRPC<AppRouter>({
     const url = `${getBaseUrl()}/api/trpc`
 
     return {
+      links: [
+        loggerLink({
+          enabled: (opts) =>
+            process.env.NODE_ENV === 'development' ||
+            (opts.direction === 'down' && opts.result instanceof Error)
+        }),
+        httpBatchLink({ url })
+      ],
       url,
-      transformer: superjson
+      transformer: superjson,
       /**
        * @link https://react-query.tanstack.com/reference/QueryClient
        */
-      // queryClientConfig: { defaultOptions: { queries: { staleTime: 60 } } },
+      queryClientConfig: {
+        defaultOptions: { queries: { staleTime: Infinity } }
+      }
     }
   },
   /**

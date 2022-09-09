@@ -7,7 +7,6 @@ import { appRouter } from '../server/router'
 import { trpc } from '../utils/trpc'
 import { createContextInner } from '../server/router/context'
 import superjson from 'superjson'
-import Head from 'next/head'
 
 const GamesPage = () => {
   const gameQuery = trpc.useQuery(['game.getAll'])
@@ -18,7 +17,7 @@ const GamesPage = () => {
   if (!files)
     return (
       <>
-        <Hero img="/assets/pagebg.jpg">
+        <Hero img="/assets/pagebg.jpg" title="Games | Videogamer">
           <h1 className="text-center text-5xl font-extrabold uppercase">
             Videogames
           </h1>
@@ -30,10 +29,7 @@ const GamesPage = () => {
 
   return (
     <>
-      <Head>
-        <title>Games | Videogamer</title>
-      </Head>
-      <Hero img="/assets/pagebg.jpg">
+      <Hero img="/assets/pagebg.jpg" title="Games | Videogamer">
         <h1 className="text-center text-5xl font-extrabold uppercase">
           Videogames
         </h1>

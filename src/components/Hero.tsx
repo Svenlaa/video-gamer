@@ -1,16 +1,31 @@
+import Head from 'next/head'
 import Image from 'next/image'
 import Header from './header'
 
-const Hero = ({ img, children }: { img?: string; children?: JSX.Element }) => {
+const Hero = ({
+  img,
+  children,
+  title
+}: {
+  img?: string
+  children?: JSX.Element
+  title: string
+}) => {
   if (!children || !img)
     return (
       <>
+        <Head>
+          <title>{title}</title>
+        </Head>
         <Header />
         <div className="pt-[135px]" />
       </>
     )
   return (
     <>
+      <Head>
+        <title>{title}</title>
+      </Head>
       <Header />
       <div className="relative -z-10 mb-4 h-[50vh] min-h-[10rem] w-full">
         <div className="absolute inset-0 -z-10">

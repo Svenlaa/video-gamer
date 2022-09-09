@@ -1,5 +1,4 @@
 import { signIn } from 'next-auth/react'
-import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
@@ -30,10 +29,7 @@ const LoginPage = () => {
 
   return (
     <>
-      <Head>
-        <title>Login | Videogamer</title>
-      </Head>
-      <Hero img="/assets/pagebg.jpg">
+      <Hero img="/assets/pagebg.jpg" title="Login | Videogamer">
         <h1 className="text-center text-5xl font-extrabold uppercase">
           Login for gaming
         </h1>

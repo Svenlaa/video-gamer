@@ -15,7 +15,6 @@ import { prisma } from '../../server/db/client'
 import Image from 'next/image'
 import { createSSGHelpers } from '@trpc/react/ssg'
 import superjson from 'superjson'
-import Head from 'next/head'
 
 const GamePage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { slug } = props
@@ -23,17 +22,15 @@ const GamePage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const gameQuery = trpc.useQuery(['game.getOne', slug])
   const recQuery = trpc.useQuery(['game.getRecent'])
 
-  if (!gameQuery.isSuccess || !recQuery.isSuccess) return <Hero />
+  if (!gameQuery.isSuccess || !recQuery.isSuccess)
+    return <Hero title={'Game | Videogamer'} />
 
   const { data: game } = gameQuery
   const { data: rec } = recQuery
 
   return (
     <>
-      <Head>
-        <title>{`${game.title} | Videogamer`}</title>
-      </Head>
-      <Hero img="/assets/pagebg.jpg">
+      <Hero img="/assets/pagebg.jpg" title={`${game.title} | Videogamer`}>
         <h1 className="text-center text-5xl font-extrabold">{game.title}</h1>
       </Hero>
       <main className="container mx-auto flex flex-row gap-4">

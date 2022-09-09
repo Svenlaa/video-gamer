@@ -1,6 +1,5 @@
 import { NextPage } from 'next'
 import { useSession } from 'next-auth/react'
-import Head from 'next/head'
 import Footer from '../components/footer'
 import Hero from '../components/Hero'
 
@@ -8,10 +7,7 @@ const ProfilePage: NextPage = () => {
   const { data: session } = useSession()
   return (
     <>
-      <Head>
-        <title>Profile | Videogamer</title>
-      </Head>
-      <Hero />
+      <Hero title="Profile | Videogamer" />
       <div className="container mx-auto">
         {session && (
           <p>

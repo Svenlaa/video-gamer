@@ -1,5 +1,4 @@
 import { signIn } from 'next-auth/react'
-import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FormEvent, useState } from 'react'
@@ -47,10 +46,7 @@ const RegisterPage = () => {
 
   return (
     <>
-      <Head>
-        <title>Register | Videogamer</title>
-      </Head>
-      <Hero img="/assets/pagebg.jpg">
+      <Hero img="/assets/pagebg.jpg" title="Register | Videogamer">
         <h1 className="text-center text-5xl font-extrabold uppercase">
           Registration Page
         </h1>

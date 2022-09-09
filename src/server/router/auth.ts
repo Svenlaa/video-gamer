@@ -6,12 +6,14 @@ import { randomUUID } from 'crypto'
 export const authRouter = createRouter()
   .mutation('login', {
     input: z.object({
-      email: z.string().email(),
+      userString: z.string(),
       password: z.string()
     }),
     async resolve({ input, ctx: { prisma } }) {
       const existingUser = await prisma.user.findFirst({
-        where: { email: input.email }
+        where: {
+          OR: [{ email: input.userString }, { name: input.userString }]
+        }
       })
       if (!existingUser?.password) return null
       const match = await bcrypt.compare(input.password, existingUser?.password)
@@ -20,7 +22,8 @@ export const authRouter = createRouter()
   })
   .mutation('register', {
     input: z.object({
-      email: z.string(),
+      name: z.string(),
+      email: z.string().email(),
       password: z.string()
     }),
     async resolve({ input, ctx: { prisma } }) {
@@ -30,7 +33,12 @@ export const authRouter = createRouter()
       if (existingUser) throw Error('Account already exists')
       const hash = await bcrypt.hash(input.password, 10)
       const user = prisma.user.create({
-        data: { id: randomUUID(), email: input.email, password: hash }
+        data: {
+          id: randomUUID(),
+          email: input.email,
+          password: hash,
+          name: input.name
+        }
       })
       return user
     }

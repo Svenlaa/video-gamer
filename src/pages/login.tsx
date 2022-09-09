@@ -8,20 +8,20 @@ import SubmitBtn from '../components/form/submit'
 import Hero from '../components/Hero'
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('')
+  const [userString, setUserString] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
 
   const router = useRouter()
   const { data: session } = useSession()
-  if (session && !email) router.replace('/profile')
+  if (session && !userString) router.replace('/profile')
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (!email || !password) return setError('Please enter something')
+    if (!userString || !password) return setError('Please enter something')
 
     const res = await signIn('credentials', {
-      email,
+      userString,
       password,
       redirect: false
     })
@@ -46,11 +46,11 @@ const LoginPage = () => {
           <h3 className="mb-8 block text-center text-2xl font-bold">LOG IN</h3>
           <form onSubmit={handleSubmit}>
             <Input
-              type="email"
+              type="text"
               required
-              placeholder="User Name"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              placeholder="User Name or eMail"
+              value={userString}
+              onChange={(e) => setUserString(e.target.value)}
             />
             <Input
               type="password"

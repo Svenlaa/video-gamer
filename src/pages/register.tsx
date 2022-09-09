@@ -11,10 +11,10 @@ import { trpc } from '../utils/trpc'
 const RegisterPage = () => {
   const router = useRouter()
   const [errorMsg, setErrorMsg] = useState('')
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [passwordi, setPasswordi] = useState('')
-
   const { data: session } = useSession()
   if (session && !email) router.replace('/profile')
 
@@ -30,12 +30,12 @@ const RegisterPage = () => {
       return setErrorMsg("Passwords ain't matching are they?")
 
     mutate(
-      { email, password },
+      { email, password, name },
       {
         onSuccess: async () => {
           await signIn('credentials', {
             redirect: false,
-            email,
+            userString: email,
             password
           })
           router.push('/profile')
@@ -66,9 +66,16 @@ const RegisterPage = () => {
           </h3>
           <form onSubmit={handleRegister}>
             <Input
-              type="email"
+              type="text"
               required
               placeholder="User Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <Input
+              type="email"
+              required
+              placeholder="eMail"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />

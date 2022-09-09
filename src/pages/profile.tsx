@@ -12,7 +12,7 @@ const ProfilePage: NextPage = () => {
         {session && (
           <p>
             Welcome back{' '}
-            <span className="text-green-500">{session.user?.email}</span>!
+            <span className="text-green-500">{session.user?.name}</span>!
           </p>
         )}
         {!session && <p>Access Denied</p>}

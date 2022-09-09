@@ -65,7 +65,7 @@ const Header = () => {
           <HeaderLink
             icon={<FontAwesomeIcon icon={faFacebookSquare} />}
             link="https://facebook.com"
-            title="FaceBook"
+            title="Facebook"
           />
           <HeaderLink
             icon={<FontAwesomeIcon icon={faRss} />}

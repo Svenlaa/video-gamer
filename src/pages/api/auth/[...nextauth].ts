@@ -11,8 +11,20 @@ export const authOptions: NextAuthOptions = {
     signIn: '/login'
   },
   callbacks: {
-    session: ({ session }) => {
-      session.property = 'sven'
+    session: async ({ session }) => {
+      if (!session.user?.email) return session
+
+      const user = await prisma.user.findUnique({
+        where: { email: session.user.email },
+        select: { role: true }
+      })
+
+      const roles = (user?.role as string[]) || []
+      roles.push('user')
+
+      // @ts-ignore
+      session.user.role = roles
+
       return session
     }
   },

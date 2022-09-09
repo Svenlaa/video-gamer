@@ -39,7 +39,7 @@ model Session {
 
 model User {
     id            String    @id @default(cuid())
-    role          String    @default("user")
+    role          Json      @default("[]")
     password      String?
     name          String?   @unique
     email         String?   @unique

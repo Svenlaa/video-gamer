@@ -1,4 +1,4 @@
-import { signOut, useSession } from 'next-auth/react'
+import { getSession, signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -38,7 +38,10 @@ const HeaderLink = ({
 }
 
 const Header = () => {
-  const { status } = useSession()
+  const session = useSession()
+  const user = session.data?.user || null
+
+  console.log(user)
 
   return (
     <header className="absolute z-20 -ml-1 w-full backdrop-blur-lg">
@@ -91,7 +94,7 @@ const Header = () => {
                 <a>GAMES</a>
               </Link>
             </li>
-            {status === 'unauthenticated' && (
+            {!user && (
               <li>
                 <Link href="/login">
                   <a className="whitespace-nowrap border-b-2 border-ruby bg-white p-3 text-ruby">
@@ -109,7 +112,7 @@ const Header = () => {
                 </Link>
               </li>
             )}
-            {status === 'authenticated' && (
+            {user && (
               <li>
                 <Link href="/profile">
                   <a className="whitespace-nowrap border-b-2 border-ruby bg-white p-3 text-ruby">

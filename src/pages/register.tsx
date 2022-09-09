@@ -1,4 +1,4 @@
-import { signIn } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FormEvent, useState } from 'react'
@@ -14,6 +14,9 @@ const RegisterPage = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [passwordi, setPasswordi] = useState('')
+
+  const { data: session } = useSession()
+  if (session && !email) router.replace('/profile')
 
   const { mutate } = trpc.useMutation('auth.register')
 

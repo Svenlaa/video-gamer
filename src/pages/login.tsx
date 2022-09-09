@@ -1,4 +1,4 @@
-import { signIn } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
@@ -13,6 +13,8 @@ const LoginPage = () => {
   const [error, setError] = useState('')
 
   const router = useRouter()
+  const { data: session } = useSession()
+  if (session && !email) router.replace('/profile')
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()

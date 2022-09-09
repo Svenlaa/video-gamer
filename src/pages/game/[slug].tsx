@@ -15,12 +15,24 @@ import { prisma } from '../../server/db/client'
 import Image from 'next/image'
 import { createSSGHelpers } from '@trpc/react/ssg'
 import superjson from 'superjson'
+import { FormEvent, useState } from 'react'
+import { useSession } from 'next-auth/react'
+// @ts-ignore
+import StarRatingComponent from 'react-star-rating-component'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faVimeoV } from '@fortawesome/free-brands-svg-icons'
+import SubmitBtn from '../../components/form/submit'
 
 const GamePage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { slug } = props
 
+  const [message, setMessage] = useState('')
+  const [stars, setStars] = useState(0)
+
   const gameQuery = trpc.useQuery(['game.getOne', slug])
   const recQuery = trpc.useQuery(['game.getRecent'])
+  const session = useSession()
+  const user = session.data?.user
 
   if (!gameQuery.isSuccess || !recQuery.isSuccess)
     return <Hero title={'Game | Videogamer'} />
@@ -28,13 +40,19 @@ const GamePage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { data: game } = gameQuery
   const { data: rec } = recQuery
 
+  const onForm = (e: FormEvent) => {
+    e.preventDefault()
+    if (!stars || !message) return
+    console.log(stars, message)
+  }
+
   return (
     <>
       <Hero img="/assets/pagebg.jpg" title={`${game.title} | Videogamer`}>
         <h1 className="text-center text-5xl font-extrabold">{game.title}</h1>
       </Hero>
       <main className="container mx-auto flex flex-row gap-4">
-        <div className="flex w-3/4 flex-col">
+        <div className="flex w-3/4 flex-col gap-4">
           <Card bgColor="white ">
             <div className="flew-row relative mx-auto flex aspect-game w-60">
               <Image
@@ -43,6 +61,34 @@ const GamePage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
                 layout="fill"
               />
             </div>
+          </Card>
+          <Card bgColor="ocean">
+            <ul></ul>
+            {user && (
+              <div>
+                <h3 className="text-lg font-bold uppercase">Add a review</h3>
+                <form onSubmit={onForm}>
+                  <div className="py-2">
+                    Your rating:
+                    <StarRatingComponent
+                      className="mx-2 align-middle text-2xl leading-none text-white"
+                      value={stars}
+                      renderStarIcon={() => <FontAwesomeIcon icon={faVimeoV} />}
+                      emptyStarColor="lightgray"
+                      onStarClick={(e: any) => setStars(e.nextvalue)}
+                    />
+                  </div>
+                  <textarea
+                    className="w-full rounded-sm bg-white/10 p-2"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    placeholder="Your review"
+                    rows={5}
+                  />
+                  <SubmitBtn text="sumbit now" />
+                </form>
+              </div>
+            )}
           </Card>
         </div>
         <div className="w-1/4">

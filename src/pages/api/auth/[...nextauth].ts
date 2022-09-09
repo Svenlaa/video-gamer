@@ -20,7 +20,6 @@ export const authOptions: NextAuthOptions = {
       })
 
       const roles = (user?.role as string[]) || []
-      roles.push('user')
 
       // @ts-ignore
       session.user.role = roles

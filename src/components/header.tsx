@@ -41,8 +41,6 @@ const Header = () => {
   const session = useSession()
   const user = session.data?.user || null
 
-  console.log(user)
-
   return (
     <header className="absolute z-20 -ml-1 w-full backdrop-blur-lg">
       <div className="container mx-auto px-4">

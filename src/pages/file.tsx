@@ -13,7 +13,6 @@ const FilePage: NextPage = () => {
   //   'file.getObject',
   //   { Key: 'test.txt', Bucket: 'buckle-2' }
   // ]).data
-  console.log(buckets)
 
   return <p>Hello</p>
 }

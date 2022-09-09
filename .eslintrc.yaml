@@ -6,3 +6,4 @@ rules:
   no-var: error
   eqeqeq: warn
   no-unused-expressions: error
+  no-console: warn

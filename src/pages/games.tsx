@@ -1,16 +1,19 @@
+import { createSSGHelpers } from '@trpc/react/ssg'
 import Footer from '../components/footer'
 import GameThumbnail from '../components/game/GameThumbnail'
 import Header from '../components/header'
 import Hero from '../components/Hero'
+import { appRouter } from '../server/router'
 import { trpc } from '../utils/trpc'
+import { createContextInner } from '../server/router/context'
+import superjson from 'superjson'
 
 const GamesPage = () => {
-  const q = trpc.useQuery(['file.listObjects', { Bucket: 'videogamer-2' }])
   const gameQuery = trpc.useQuery(['game.getAll'])
 
-  if (!gameQuery.isSuccess || !q.isSuccess) return <Header />
+  if (!gameQuery.isSuccess) return <Header />
 
-  const files = q.data.Contents?.map((f) => f.Key) as []
+  const files = gameQuery.data.map((f) => f.slug)
   if (!files)
     return (
       <>
@@ -41,6 +44,22 @@ const GamesPage = () => {
       <Footer />
     </>
   )
+}
+
+export const getStaticProps = async () => {
+  const ssg = await createSSGHelpers({
+    router: appRouter,
+    ctx: await createContextInner({ session: null }),
+    transformer: superjson // optional - adds superjson serialization
+  })
+
+  await ssg.fetchQuery('game.getAll')
+
+  return {
+    props: {
+      trpcState: ssg.dehydrate()
+    }
+  }
 }
 
 export default GamesPage

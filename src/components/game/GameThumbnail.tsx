@@ -13,12 +13,10 @@ const GameThumbnail = ({
 }) => {
   return (
     <Link href={`/game/${game.slug}`}>
-      <a>
+      <a className="relative aspect-game w-full overflow-hidden rounded-md">
         <Image
           src={`http://localhost:9000/videogamer-2/${game.coverImg}`}
-          width="200"
-          height="323.25"
-          className="rounded-md"
+          layout="fill"
           alt={game.title + ' cover'}
         />
       </a>

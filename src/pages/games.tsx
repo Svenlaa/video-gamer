@@ -7,6 +7,7 @@ import { appRouter } from '../server/router'
 import { trpc } from '../utils/trpc'
 import { createContextInner } from '../server/router/context'
 import superjson from 'superjson'
+import Head from 'next/head'
 
 const GamesPage = () => {
   const gameQuery = trpc.useQuery(['game.getAll'])
@@ -29,13 +30,16 @@ const GamesPage = () => {
 
   return (
     <>
+      <Head>
+        <title>Games | Videogamer</title>
+      </Head>
       <Hero img="/assets/pagebg.jpg">
         <h1 className="text-center text-5xl font-extrabold uppercase">
           Videogames
         </h1>
       </Hero>
-      <div className="container mx-auto">
-        <div className="grid grid-flow-row grid-cols-7 p-4">
+      <div className="container mx-auto px-4">
+        <div className="grid grid-flow-row grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
           {gameQuery.data.map((game) => (
             <GameThumbnail game={game} key={game.id} />
           ))}

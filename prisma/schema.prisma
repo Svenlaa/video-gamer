@@ -75,13 +75,13 @@ model Review {
     id         String   @id @default(cuid())
     stars      Int
     createdAt  DateTime @default(now())
-    content    String
+    content    String   @db.Text
 
     authorName String
     author     User     @relation(fields: [authorName], references: [name])
     
-    gameId     String
-    game       Game     @relation(fields: [gameId], references: [id])
+    gameSlug   String
+    game       Game     @relation(fields: [gameSlug], references: [slug])
 }
 
 model Category {

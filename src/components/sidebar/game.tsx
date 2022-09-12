@@ -17,7 +17,7 @@ const Game = ({
     <li>
       <Link href={`/game/${slug}`}>
         <a className="flex flex-row gap-2 p-1 text-left hover:text-rose-500">
-          <div className="relative row-span-3 aspect-game w-10">
+          <div className="relative row-span-3 aspect-game w-10 flex-shrink-0">
             <Image
               src={getImageUrl(imgUrl)}
               layout="fill"

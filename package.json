@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "/": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts",
+    "bs": "yarn build && yarn start",
     "postinstall": "prisma generate"
   },
   "dependencies": {

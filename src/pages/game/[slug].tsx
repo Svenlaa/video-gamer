@@ -20,30 +20,72 @@ import { useSession } from 'next-auth/react'
 // @ts-ignore
 import StarRatingComponent from 'react-star-rating-component'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faVimeoV } from '@fortawesome/free-brands-svg-icons'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
 import SubmitBtn from '../../components/form/submit'
+import Review from '../../components/game/Review'
 
 const GamePage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { slug } = props
+  const session = useSession()
+  const user = session.data?.user
 
   const [message, setMessage] = useState('')
   const [stars, setStars] = useState(0)
 
+  const utils = trpc.useContext()
+
   const gameQuery = trpc.useQuery(['game.getOne', slug])
   const recQuery = trpc.useQuery(['game.getRecent'])
-  const session = useSession()
-  const user = session.data?.user
+  const getReviewsQuery = trpc.useQuery(['review.getForGame', slug])
+  const mutateReview = trpc.useMutation(['review.create'])
+  const userReviewQuery = trpc.useQuery([
+    'review.getSpecificReview',
+    { gameSlug: slug, username: user?.name as string }
+  ])
 
-  if (!gameQuery.isSuccess || !recQuery.isSuccess)
+  if (!gameQuery.isSuccess || !recQuery.isSuccess || !getReviewsQuery.isSuccess)
     return <Hero title={'Game | Videogamer'} />
 
   const { data: game } = gameQuery
   const { data: rec } = recQuery
+  const { data: reviews } = getReviewsQuery
+  const { data: userReview } = user ? userReviewQuery : { data: null }
 
   const onForm = (e: FormEvent) => {
     e.preventDefault()
-    if (!stars || !message) return
-    console.log(stars, message)
+    if (!stars || !message || !user?.name) return
+
+    mutateReview.mutate(
+      { gameSlug: slug, message, stars, username: user.name },
+      {
+        onSuccess(input) {
+          utils.invalidateQueries(['review.getForGame'])
+          utils.invalidateQueries([
+            'review.getSpecificReview',
+            { gameSlug: input.gameSlug, username: input.authorName }
+          ])
+        }
+      }
+    )
+    setStars(0)
+    setMessage('')
+  }
+
+  const mutateDelete = trpc.useMutation('review.deleteReview')
+
+  const onDelete = (id: string) => {
+    mutateDelete.mutate(
+      { id },
+      {
+        onSuccess(input) {
+          utils.invalidateQueries(['review.getForGame'])
+          utils.invalidateQueries([
+            'review.getSpecificReview',
+            { gameSlug: input.gameSlug, username: input.authorName }
+          ])
+        }
+      }
+    )
   }
 
   return (
@@ -52,7 +94,7 @@ const GamePage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
         <h1 className="text-center text-5xl font-extrabold">{game.title}</h1>
       </Hero>
       <main className="container mx-auto flex flex-row gap-4">
-        <div className="flex w-3/4 flex-col gap-4">
+        <div className="flex w-2/3 flex-col gap-4">
           <Card bgColor="white ">
             <div className="flew-row relative mx-auto flex aspect-game w-60">
               <Image
@@ -63,8 +105,7 @@ const GamePage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
             </div>
           </Card>
           <Card bgColor="ocean">
-            <ul></ul>
-            {user && (
+            {user && !userReview && (
               <div>
                 <h3 className="text-lg font-bold uppercase">Add a review</h3>
                 <form onSubmit={onForm}>
@@ -73,9 +114,12 @@ const GamePage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
                     <StarRatingComponent
                       className="mx-2 align-middle text-2xl leading-none text-white"
                       value={stars}
-                      renderStarIcon={() => <FontAwesomeIcon icon={faVimeoV} />}
+                      name="star"
+                      renderStarIcon={() => <FontAwesomeIcon icon={faStar} />}
                       emptyStarColor="lightgray"
-                      onStarClick={(e: any) => setStars(e.nextvalue)}
+                      onStarClick={(e: any) => {
+                        setStars(e)
+                      }}
                     />
                   </div>
                   <textarea
@@ -89,9 +133,26 @@ const GamePage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
                 </form>
               </div>
             )}
+            <ul className="flex flex-col gap-4">
+              {userReview && (
+                <Review
+                  key={userReview.id}
+                  review={userReview}
+                  your
+                  onDelete={onDelete}
+                />
+              )}
+              {reviews?.map(
+                // Displays all reviews for this game, EXCEPT yours
+                (review) =>
+                  review.authorName !== user?.name && (
+                    <Review key={review.id} review={review} your={false} />
+                  )
+              )}
+            </ul>
           </Card>
         </div>
-        <div className="w-1/4">
+        <div className="w-1/3">
           <div>
             <h2 className="mb-2 text-xl font-semibold uppercase">
               Recent Releases
@@ -127,6 +188,7 @@ export const getStaticProps = async (
   const slug = context.params?.slug as string
 
   await ssg.prefetchQuery('game.getOne', slug)
+  await ssg.prefetchQuery('review.getForGame', slug)
   await ssg.prefetchQuery('game.getRecent')
 
   return {

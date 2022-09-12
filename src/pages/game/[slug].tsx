@@ -23,6 +23,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import SubmitBtn from '../../components/form/submit'
 import Review from '../../components/game/Review'
+import Sidebar from '../../components/sidebar/Sidebar'
 
 const GamePage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { slug } = props
@@ -35,7 +36,6 @@ const GamePage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const utils = trpc.useContext()
 
   const gameQuery = trpc.useQuery(['game.getOne', slug])
-  const recQuery = trpc.useQuery(['game.getRecent'])
   const getReviewsQuery = trpc.useQuery(['review.getForGame', slug])
   const mutateReview = trpc.useMutation(['review.create'])
   const userReviewQuery = trpc.useQuery([
@@ -43,11 +43,10 @@ const GamePage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
     { gameSlug: slug, username: user?.name as string }
   ])
 
-  if (!gameQuery.isSuccess || !recQuery.isSuccess || !getReviewsQuery.isSuccess)
+  if (!gameQuery.isSuccess || !getReviewsQuery.isSuccess)
     return <Hero title={'Game | Videogamer'} />
 
   const { data: game } = gameQuery
-  const { data: rec } = recQuery
   const { data: reviews } = getReviewsQuery
   const { data: userReview } = user ? userReviewQuery : { data: null }
 
@@ -94,7 +93,7 @@ const GamePage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
         <h1 className="text-center text-5xl font-extrabold">{game.title}</h1>
       </Hero>
       <main className="container mx-auto flex flex-row gap-4">
-        <div className="flex w-2/3 flex-col gap-4">
+        <div className="flex w-full flex-col gap-4 md:w-3/4">
           <Card bgColor="white ">
             <div className="flew-row relative mx-auto flex aspect-game w-60">
               <Image
@@ -152,24 +151,7 @@ const GamePage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
             </ul>
           </Card>
         </div>
-        <div className="w-1/3">
-          <div>
-            <h2 className="mb-2 text-xl font-semibold uppercase">
-              Recent Releases
-            </h2>
-            <ul>
-              {rec.map((g) => (
-                <Game
-                  key={g.id}
-                  title={g.title}
-                  slug={g.slug}
-                  imgUrl={g.coverImg}
-                  releaseDate={g.releaseDate.toLocaleDateString()}
-                />
-              ))}
-            </ul>
-          </div>
-        </div>
+        <Sidebar />
       </main>
       <Footer />
     </>
@@ -189,7 +171,8 @@ export const getStaticProps = async (
 
   await ssg.prefetchQuery('game.getOne', slug)
   await ssg.prefetchQuery('review.getForGame', slug)
-  await ssg.prefetchQuery('game.getRecent')
+  await ssg.prefetchQuery('game.getRecent') // used in Sidebar
+  await ssg.prefetchQuery('category.getAll') // used in Sidebar
 
   return {
     props: {

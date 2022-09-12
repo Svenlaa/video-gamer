@@ -29,18 +29,9 @@ const Review = ({
 
   return (
     <li className="flex flex-col gap-1">
-      <div className="flex flex-row justify-between">
-        <div className=" flex flex-row flex-wrap gap-4">
-          <span className="font-bold">{review.authorName}</span>
-          <span>
-            Posted on{' '}
-            {new Intl.DateTimeFormat('en-US', {
-              dateStyle: 'full',
-              timeStyle: 'short'
-            }).format(review.createdAt)}
-          </span>
-        </div>
-        <div className="flex flex-shrink-0 flex-col justify-around">
+      <div className="flex flex-row flex-wrap gap-2">
+        <span className="flex-grow-0 font-bold">{review.authorName}</span>
+        <div className="grow text-right lg:order-last">
           <StarRatingComponent
             className="mx-2 whitespace-nowrap align-middle text-2xl leading-none text-white"
             value={review.stars}
@@ -50,6 +41,13 @@ const Review = ({
             emptyStarColor="lightgray"
           />
         </div>
+        <span>
+          Posted on{' '}
+          {new Intl.DateTimeFormat('en-US', {
+            dateStyle: 'full',
+            timeStyle: 'short'
+          }).format(review.createdAt)}
+        </span>
       </div>
       <div>{review.content}</div>
       {your && (

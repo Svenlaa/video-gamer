@@ -178,7 +178,8 @@ export const getStaticProps = async (
     props: {
       trpcState: ssg.dehydrate(),
       slug
-    }
+    },
+    revalidate: 60
   }
 }
 

@@ -92,8 +92,8 @@ const GamePage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
       <Hero img="/assets/pagebg.jpg" title={`${game.title} | Videogamer`}>
         <h1 className="text-center text-5xl font-extrabold">{game.title}</h1>
       </Hero>
-      <main className="container mx-auto flex flex-row gap-4">
-        <div className="flex w-full flex-col gap-4 md:w-3/4">
+      <main className="container mx-auto flex h-full flex-row gap-4">
+        <div className="mb-4 flex w-full flex-col gap-4 pt-20 md:w-3/4">
           <Card bgColor="white ">
             <div className="flew-row relative mx-auto flex aspect-game w-60">
               <Image

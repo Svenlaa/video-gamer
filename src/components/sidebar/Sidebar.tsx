@@ -13,8 +13,8 @@ const Sidebar = () => {
   const { data: categories } = categoryQuery
 
   return (
-    <div className="hidden md:block md:w-1/4">
-      <div>
+    <div className="relative hidden min-h-full before:absolute before:-z-10 before:h-full before:w-screen before:overflow-x-hidden before:bg-ocean md:block md:w-1/4">
+      <div className="p-2 pt-14">
         <h2 className="mt-2 text-xl font-semibold uppercase">All categories</h2>
         <ul>
           {categories.map((category) => (
@@ -35,7 +35,7 @@ const Sidebar = () => {
           ))}
         </ul>
       </div>
-      <div>
+      <div className="p-2">
         <h2 className="mt-2 text-xl font-semibold uppercase">
           Recent Releases
         </h2>

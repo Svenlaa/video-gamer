@@ -27,7 +27,7 @@ const Hero = ({
         <title>{title}</title>
       </Head>
       <Header />
-      <div className="relative -z-10 mb-4 h-[50vh] min-h-[10rem] w-full">
+      <div className="relative -z-10 h-[50vh] min-h-[10rem] w-full">
         <div className="absolute inset-0 -z-10">
           <Image
             quality={100}

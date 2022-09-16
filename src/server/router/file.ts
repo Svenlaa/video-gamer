@@ -1,6 +1,8 @@
-import { createRouter } from './context'
 import { z } from 'zod'
 import { S3 } from 'aws-sdk'
+import { randomUUID } from 'crypto'
+import { createProtectedRouter } from './protected-router'
+import trpc from '@trpc/server'
 
 const s3 = new S3({
   s3ForcePathStyle: true, //! VERY IMPORTANT. DO NOT FORGET THIS
@@ -11,29 +13,29 @@ const s3 = new S3({
   }
 })
 
-export const fileRouter = createRouter()
-  .query('listBuckets', {
-    async resolve() {
-      return await s3.listBuckets().promise()
+export const fileRouter = createProtectedRouter().query('getSignedUrl', {
+  input: z.object({
+    contentType: z.string()
+  }),
+  resolve: async ({ input, ctx: { session } }) => {
+    if (!session.user.role.includes('admin'))
+      throw new trpc.TRPCError({ code: 'UNAUTHORIZED' })
+
+    let extension = ''
+    if (input.contentType === 'image/jpeg') extension = '.jpg'
+    if (input.contentType === 'image/png') extension = '.png'
+
+    const key = randomUUID() + extension
+
+    const s3Params = {
+      Bucket: 'videogamer',
+      Key: key,
+      ContentType: input.contentType
     }
-  })
-  .query('listObjects', {
-    input: z.object({
-      Bucket: z.string()
-    }),
-    async resolve({ input }) {
-      const { Bucket } = input
-      return await s3.listObjectsV2({ Bucket }).promise()
-    }
-  })
-  .query('getObject', {
-    input: z.object({
-      Key: z.string(),
-      Bucket: z.string()
-    }),
-    resolve: async ({ input }) => {
-      const Key = input.Key
-      const Bucket = input.Bucket
-      return await await s3.getObject({ Bucket, Key }).promise()
-    }
-  })
+
+    const i = s3.createPresignedPost
+    const uploadUrl = await s3.getSignedUrlPromise('putObject', s3Params)
+
+    return { uploadUrl, key }
+  }
+})

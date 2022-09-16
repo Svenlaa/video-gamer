@@ -1,18 +1,41 @@
 import { z } from 'zod'
 import { createRouter } from './context'
+import { createProtectedRouter } from './protected-router'
 
-export const reviewRouter = createRouter()
-  .query('getSpecificReview', {
+const protectedReviewRouter = createProtectedRouter()
+  .query('hey', {
+    resolve: () => 'hey'
+  })
+  .mutation('create', {
     input: z.object({
-      username: z.string().nullish(),
+      stars: z.number(),
+      username: z.string(),
+      message: z.string(),
       gameSlug: z.string()
     }),
-    resolve: async ({ input, ctx: { prisma } }) => {
-      if (!input.username) return null
+    resolve: async ({ input, ctx: { prisma, session } }) => {
+      if (!session?.user) throw Error()
+      const review = await prisma.review.create({
+        data: {
+          content: input.message,
+          stars: input.stars,
+          gameSlug: input.gameSlug,
+          authorName: input.username
+        }
+      })
+      return review
+    }
+  })
+  .query('getSpecificReview', {
+    input: z.object({
+      gameSlug: z.string()
+    }),
+    resolve: async ({ input, ctx: { session, prisma } }) => {
+      if (!session.user.name) return null
       const existingReview = await prisma.review.findFirst({
         where: {
           AND: {
-            authorName: input.username,
+            authorName: session.user.name,
             gameSlug: input.gameSlug
           }
         }
@@ -33,6 +56,8 @@ export const reviewRouter = createRouter()
       return i
     }
   })
+
+export const reviewRouter = createRouter()
   .query('getForGame', {
     input: z.string(),
     resolve: async ({ input, ctx: { prisma } }) => {
@@ -44,22 +69,4 @@ export const reviewRouter = createRouter()
       return reviews ? reviews : null
     }
   })
-  .mutation('create', {
-    input: z.object({
-      stars: z.number(),
-      username: z.string(),
-      message: z.string(),
-      gameSlug: z.string()
-    }),
-    resolve: async ({ input, ctx: { prisma } }) => {
-      const review = await prisma.review.create({
-        data: {
-          content: input.message,
-          stars: input.stars,
-          gameSlug: input.gameSlug,
-          authorName: input.username
-        }
-      })
-      return review
-    }
-  })
+  .merge(protectedReviewRouter)

@@ -11,6 +11,7 @@ type CreateContextOptions = {
 }
 
 export const createContextInner = async (opts: CreateContextOptions) => {
+  console.log('OPTS', opts)
   return {
     session: opts?.session,
     prisma
@@ -23,7 +24,7 @@ export const createContext = async (
   const { req, res } = opts
 
   const session = await getServerAuthSession({ req, res })
-
+  console.log('SESH', session)
   return await createContextInner({
     session
   })

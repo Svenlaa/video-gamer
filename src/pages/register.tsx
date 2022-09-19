@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FormEvent, useState } from 'react'
 import Footer from '../components/footer'
+import ErrorModal from '../components/form/errormodal'
 import Input from '../components/form/input'
 import SubmitBtn from '../components/form/submit'
 import Hero from '../components/Hero'
@@ -55,11 +56,7 @@ const RegisterPage = () => {
         </h1>
       </Hero>
       <main className="container mx-auto my-24 px-4">
-        {errorMsg && (
-          <div className="mx-auto my-4 max-w-[545px] rounded-lg bg-red-800 py-6 px-20 text-gray-300">
-            {errorMsg}
-          </div>
-        )}
+        <ErrorModal message={errorMsg} />
         <div className="mx-auto max-w-[545px] rounded-lg bg-ocean py-[60px] px-20">
           <h3 className="mb-8 block text-center text-2xl font-bold">
             REGISTER

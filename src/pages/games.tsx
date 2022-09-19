@@ -48,7 +48,7 @@ const GamesPage = () => {
           Videogames
         </h1>
       </Hero>
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 py-20">
         <div className="grid grid-flow-row grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
           {games.map((game) => (
             <GameThumbnail game={game} key={game.id} />

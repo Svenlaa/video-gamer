@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import getImageUrl from '../../utils/getImageUrl'
 
 const GameThumbnail = ({
   game
@@ -15,7 +16,7 @@ const GameThumbnail = ({
     <Link href={`/game/${game.slug}`}>
       <a className="relative aspect-game w-full overflow-hidden rounded-md">
         <Image
-          src={`http://localhost:9000/videogamer-2/${game.coverImg}`}
+          src={getImageUrl(game.coverImg)}
           layout="fill"
           alt={game.title + ' cover'}
         />

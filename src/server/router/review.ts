@@ -3,9 +3,6 @@ import { createRouter } from './context'
 import { createProtectedRouter } from './protected-router'
 
 const protectedReviewRouter = createProtectedRouter()
-  .query('hey', {
-    resolve: () => 'hey'
-  })
   .mutation('create', {
     input: z.object({
       stars: z.number(),

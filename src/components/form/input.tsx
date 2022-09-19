@@ -3,7 +3,7 @@ const Input = ({
   required = false,
   onChange = (e: any) => {},
   value = '',
-  placeholder = 'Default Value'
+  placeholder = ''
 }) => {
   return (
     <input

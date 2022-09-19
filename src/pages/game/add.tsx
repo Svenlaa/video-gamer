@@ -1,8 +1,7 @@
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import ErrorModal from '../../components/form/errormodal'
-import Error from '../../components/form/errormodal'
 import Input from '../../components/form/input'
 import SubmitBtn from '../../components/form/submit'
 import Hero from '../../components/Hero'
@@ -22,8 +21,11 @@ const AddGamePage = () => {
       router.push('/login')
     }
   })
-
   const isAdmin = session?.user?.role.includes('admin')
+
+  useEffect(() => {
+    if (!isAdmin) router.replace('/games')
+  }, [isAdmin, router])
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault()

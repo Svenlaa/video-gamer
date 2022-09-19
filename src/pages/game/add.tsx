@@ -24,8 +24,9 @@ const AddGamePage = () => {
   const isAdmin = session?.user?.role.includes('admin')
 
   useEffect(() => {
+    if (!session) return
     if (!isAdmin) router.replace('/games')
-  }, [isAdmin, router])
+  }, [isAdmin, router, session])
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault()

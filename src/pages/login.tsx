@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import Footer from '../components/footer'
+import ErrorModal from '../components/form/errormodal'
 import Input from '../components/form/input'
 import SubmitBtn from '../components/form/submit'
 import Hero from '../components/Hero'
@@ -37,11 +38,7 @@ const LoginPage = () => {
         </h1>
       </Hero>
       <main className="container mx-auto my-24">
-        {error && (
-          <div className="mx-auto mb-6 max-w-screen-sm rounded-md bg-red-800 px-12 py-6 text-gray-200">
-            {error}
-          </div>
-        )}
+        <ErrorModal message={error} />
         <div className="mx-auto max-w-[545px] rounded-lg bg-ocean py-[60px] px-20">
           <h3 className="mb-8 block text-center text-2xl font-bold">LOG IN</h3>
           <form onSubmit={handleSubmit}>

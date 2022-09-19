@@ -40,7 +40,7 @@ const GamePage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const mutateReview = trpc.useMutation(['review.create'])
   const userReviewQuery = trpc.useQuery([
     'review.getSpecificReview',
-    { gameSlug: slug, username: user?.name as string }
+    { gameSlug: slug }
   ])
 
   if (!gameQuery.isSuccess || !getReviewsQuery.isSuccess)

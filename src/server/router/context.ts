@@ -10,12 +10,10 @@ type CreateContextOptions = {
   session: Session | null
 }
 
-export const createContextInner = async (opts: CreateContextOptions) => {
-  return {
-    session: opts?.session,
-    prisma
-  }
-}
+export const createContextInner = async (opts: CreateContextOptions) => ({
+  session: opts?.session,
+  prisma
+})
 
 export const createContext = async (
   opts: trpcNext.CreateNextContextOptions
@@ -23,7 +21,6 @@ export const createContext = async (
   const { req, res } = opts
 
   const session = await getServerAuthSession({ req, res })
-
   return await createContextInner({
     session
   })

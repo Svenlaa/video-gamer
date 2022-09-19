@@ -13,7 +13,10 @@ export function createProtectedRouter() {
       ctx: {
         ...ctx,
         // infers that `session` is non-nullable to downstream resolvers
-        session: { ...ctx.session, user: ctx.session.user }
+        session: {
+          ...ctx.session,
+          user: ctx.session.user
+        }
       }
     })
   })

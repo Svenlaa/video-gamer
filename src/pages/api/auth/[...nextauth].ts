@@ -13,16 +13,12 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     session: async ({ session }) => {
       if (!session.user?.email) return session
-
       const user = await prisma.user.findUnique({
         where: { email: session.user.email },
         select: { role: true }
       })
 
-      const roles = (user?.role as string[]) || []
-
-      // @ts-ignore
-      session.user.role = roles
+      session.user.role = (user?.role as string[]) || []
 
       return session
     }

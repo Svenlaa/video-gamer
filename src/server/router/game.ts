@@ -21,7 +21,7 @@ const protectedGameRouter = createProtectedRouter().mutation('create', {
     categoryName: z.string(),
     releaseDate: z.string()
   }),
-  resolve: async ({ input, ctx: { prisma, session } }) => {
+  resolve: async ({ input, ctx: { prisma, session, res } }) => {
     if (!session.user.role.includes('admin'))
       throw new trpc.TRPCError({ code: 'UNAUTHORIZED' })
 
@@ -59,7 +59,7 @@ const protectedGameRouter = createProtectedRouter().mutation('create', {
       })
     }
 
-    await await prisma.game.create({
+    await prisma.game.create({
       data: {
         title: input.title,
         coverImg: key,
@@ -70,6 +70,14 @@ const protectedGameRouter = createProtectedRouter().mutation('create', {
       }
     })
 
+    // fetch all games with prisma
+    const games = await prisma.game.findMany({ select: { slug: true } })
+
+    if (res) {
+      games.forEach(async (game) => await res.revalidate('/game/' + game.slug))
+      await res.revalidate('/games')
+      // loop and revalidate all routes
+    }
     return new Promise((resolve, reject) => {
       s3.createPresignedPost(s3Params, (err, signed) => {
         if (err) return reject(err)

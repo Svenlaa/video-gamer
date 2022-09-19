@@ -10,7 +10,7 @@ const protectedReviewRouter = createProtectedRouter()
       message: z.string(),
       gameSlug: z.string()
     }),
-    resolve: async ({ input, ctx: { prisma, session } }) => {
+    resolve: async ({ input, ctx: { prisma, session, res } }) => {
       if (!session?.user) throw Error()
       const review = await prisma.review.create({
         data: {
@@ -20,6 +20,7 @@ const protectedReviewRouter = createProtectedRouter()
           authorName: input.username
         }
       })
+      await res?.revalidate('/game/' + review.gameSlug)
       return review
     }
   })
@@ -44,13 +45,14 @@ const protectedReviewRouter = createProtectedRouter()
     input: z.object({
       id: z.string()
     }),
-    resolve: ({ input, ctx: { prisma } }) => {
-      const i = prisma.review.delete({
+    resolve: async ({ input, ctx: { prisma, res } }) => {
+      const review = await prisma.review.delete({
         where: {
           id: input.id
         }
       })
-      return i
+      await res?.revalidate('/game/' + review.gameSlug)
+      return review
     }
   })
 

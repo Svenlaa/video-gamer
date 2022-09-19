@@ -1,6 +1,5 @@
 import Footer from '../../components/footer'
 import Hero from '../../components/Hero'
-import Game from '../../components/sidebar/game'
 import Card from '../../components/ui/Card'
 import getImageUrl from '../../utils/getImageUrl'
 import { trpc } from '../../utils/trpc'
@@ -58,10 +57,10 @@ const GamePage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
       { gameSlug: slug, message, stars, username: user.name },
       {
         onSuccess(input) {
-          utils.invalidateQueries(['review.getForGame'])
+          utils.invalidateQueries(['review.getForGame', input.gameSlug])
           utils.invalidateQueries([
             'review.getSpecificReview',
-            { gameSlug: input.gameSlug, username: input.authorName }
+            { gameSlug: input.gameSlug }
           ])
         }
       }
@@ -77,10 +76,10 @@ const GamePage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
       { id },
       {
         onSuccess(input) {
-          utils.invalidateQueries(['review.getForGame'])
+          utils.invalidateQueries(['review.getForGame', input.gameSlug])
           utils.invalidateQueries([
             'review.getSpecificReview',
-            { gameSlug: input.gameSlug, username: input.authorName }
+            { gameSlug: input.gameSlug }
           ])
         }
       }
